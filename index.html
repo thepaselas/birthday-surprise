@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Happy Birthday Baby🎂</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&family=Playfair+Display&display=swap" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<style>
+
+/* 🌙 BACKGROUND */
+body {
+    margin:0;
+    overflow:hidden;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #1e293b, #334155, #7f1d1d);
+    background-size: 400% 400%;
+    animation: bg 12s ease infinite;
+}
+
+@keyframes bg {
+    0% {background-position:0% 50%;}
+    50% {background-position:100% 50%;}
+    100% {background-position:0% 50%;}
+}
+
+/* 💎 CARD */
+#card {
+    position:absolute;
+    left:8%;
+    top:18%;
+    width:400px;
+    padding:30px;
+    border-radius:20px;
+    background: rgba(0,0,0,0.65);
+    box-shadow: 0 0 40px rgba(0,0,0,0.6);
+}
+
+/* 🎂 TITLE */
+#title {
+    font-family: 'Playfair Display', serif;
+    font-size:36px;
+    color:#ffd1dc;
+    margin-bottom:15px;
+}
+
+/* ✍️ TEXT */
+#text {
+    font-size:16px;
+    line-height:26px;
+    color:#f1f5f9;
+}
+
+/* 💬 SCREENS */
+#question, #success, #proposal {
+    display:none;
+    position:fixed;
+    inset:0;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    background: rgba(0,0,0,0.85);
+    color:#fff;
+    text-align:center;
+}
+
+/* BUTTONS */
+.btn {
+    padding:12px 25px;
+    border:none;
+    border-radius:30px;
+    margin:10px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+#yes {
+    background:#ff4d6d;
+    color:white;
+}
+
+#no {
+    background:#e2e8f0;
+    color:#111;
+}
+
+/* ❤️ FLOAT HEARTS */
+.heart {
+    position:fixed;
+    bottom:-50px;
+    animation: floatUp 6s linear infinite;
+}
+@keyframes floatUp {
+    to {transform:translateY(-110vh); opacity:0;}
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- 💎 CARD -->
+<div id="card">
+<div id="title">Happy Birthday Baby 🎂</div>
+<div id="text"></div>
+</div>
+
+<!-- 💬 QUESTION -->
+<div id="question">
+<h2>Hope we stay like this… even better friends in the future 💫</h2>
+<button id="yes" class="btn">Yes 😊</button>
+<button id="no" class="btn">No 😢</button>
+</div>
+
+<!-- 🎂 SUCCESS -->
+<div id="success">
+<h1>Happy Birthday Baby🎂✨</h1>
+</div>
+
+<!-- 💬 FINAL MESSAGE -->
+<div id="proposal">
+<h2>
+I’m really glad we’re talking again.<br><br>
+
+From being close… to distant…<br>
+and now somehow back again,<br>
+it feels different — but good. 💫<br><br>
+
+Maybe things don’t always go the way we expect,<br>
+but some connections still find a way.<br><br>
+
+And honestly…<br>
+I just hope we stay like this,<br>
+or even become better friends with time. 😊
+</h2>
+</div>
+
+<script>
+
+/* ✍️ TYPEWRITER MESSAGE */
+const msg = `Happy Birthday Baby 🎂
+
+We’ve known each other for a long time...
+
+From being really close,
+to not talking at all,
+and now talking again.
+
+It’s kind of strange…
+but also nice.
+
+Things are different now,
+but I’m glad we’re still connected.
+
+It’s only been a week,
+but it already feels like something familiar.
+
+And today,
+on your birthday,
+
+I just want to say—
+I’m genuinely happy for you.
+
+Hope you have an amazing day. 😊`;
+
+let i = 0;
+
+function typeWriter() {
+    if (i < msg.length) {
+        document.getElementById("text").innerHTML += msg.charAt(i);
+        i++;
+        setTimeout(typeWriter, 35);
+    } else {
+        setTimeout(() => $("#question").fadeIn(), 1500);
+    }
+}
+typeWriter();
+
+/* ❌ NO BUTTON ESCAPE */
+$("#no").on("mouseenter", function() {
+    let x = Math.random() * (window.innerWidth - 120);
+    let y = Math.random() * (window.innerHeight - 60);
+    $(this).css({position:"fixed", left:x, top:y});
+});
+
+/* ✅ YES FLOW */
+$("#yes").click(function() {
+    $("#question").fadeOut();
+    $("#success").fadeIn();
+
+    setTimeout(() => {
+        $("#success").fadeOut();
+        $("#proposal").fadeIn();
+    }, 2000);
+});
+
+/* ❤️ FLOATING HEARTS */
+setInterval(() => {
+    let heart = $("<div class='heart'>💖</div>");
+    heart.css({left: Math.random()*100 + "vw"});
+    $("body").append(heart);
+    setTimeout(() => heart.remove(), 6000);
+}, 700);
+
+/* ❤️ CURSOR / TOUCH HEART */
+let last = 0;
+
+function createHeart(x,y){
+    if(Date.now()-last<80) return;
+    last = Date.now();
+
+    let h = document.createElement("div");
+    h.innerHTML="💖";
+    h.style.position="fixed";
+    h.style.left=x+"px";
+    h.style.top=y+"px";
+    h.style.pointerEvents="none";
+
+    document.body.appendChild(h);
+
+    setTimeout(()=>{
+        h.style.transform="translateY(-40px)";
+        h.style.opacity="0";
+    },50);
+
+    setTimeout(()=>h.remove(),1000);
+}
+
+document.addEventListener("mousemove", e => createHeart(e.clientX,e.clientY));
+document.addEventListener("touchmove", e => {
+    const t = e.touches[0];
+    createHeart(t.clientX,t.clientY);
+});
+
+</script>
+
+</body>
+</html>
