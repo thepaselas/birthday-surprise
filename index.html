@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday ❤️</title>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<style>
+body {
+    margin:0;
+    overflow:hidden;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
+    background-size: 400% 400%;
+    animation: bg 12s ease infinite;
+}
+@keyframes bg {
+    0% {background-position:0% 50%;}
+    50% {background-position:100% 50%;}
+    100% {background-position:0% 50%;}
+}
+
+/* Text Card */
+#card {
+    position:absolute;
+    left:10%;
+    top:20%;
+    width:350px;
+    background:rgba(255,255,255,0.2);
+    backdrop-filter:blur(15px);
+    padding:25px;
+    border-radius:20px;
+    color:#fff;
+}
+
+/* Canvas */
+canvas {
+    position:absolute;
+    right:0;
+}
+
+/* Question */
+#question, #success, #proposal {
+    display:none;
+    position:fixed;
+    inset:0;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    background:rgba(0,0,0,0.6);
+    color:#fff;
+    text-align:center;
+}
+
+/* Buttons */
+.btn {
+    padding:12px 25px;
+    margin:10px;
+    border:none;
+    border-radius:30px;
+    cursor:pointer;
+}
+#yes {background:#ff4d6d;color:#fff;}
+#no {background:#fff;color:#333;}
+
+/* Ring */
+.ring svg {
+    width:120px;
+    animation: pop 1s ease;
+}
+@keyframes pop {
+    0% {transform:scale(0);}
+    100% {transform:scale(1);}
+}
+
+/* Floating hearts */
+.heart {
+    position:fixed;
+    bottom:-50px;
+    animation: float 6s linear infinite;
+}
+@keyframes float {
+    to {transform:translateY(-110vh);opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<div id="card">
+<h3 id="text"></h3>
+</div>
+
+<canvas id="canvas" width="600" height="600"></canvas>
+
+<div id="question">
+<h2>Will you stay with me forever? ❤️</h2>
+<button id="yes" class="btn">Always 💖</button>
+<button id="no" class="btn">No 😢</button>
+</div>
+
+<div id="success">
+<h1>Happy Birthday My Love ❤️🎂</h1>
+</div>
+
+<div id="proposal">
+<div class="ring">
+<svg viewBox="0 0 100 100">
+<circle cx="50" cy="50" r="30" stroke="gold" stroke-width="5" fill="none"/>
+<circle cx="50" cy="25" r="8" fill="white"/>
+</svg>
+</div>
+
+<h2>
+I found my way back to you…<br>
+And this time, I’m never letting go. 💖
+</h2>
+
+<button id="gift" class="btn">Open Your Surprise 🎁</button>
+</div>
+
+<script>
+
+/* TYPEWRITER */
+var msg = `Happy Birthday, My Love ❤️🎂
+
+There was a time when we weren’t together...
+But something always felt missing.
+
+And somehow… it was always you.
+
+Now we’re here again.
+Stronger. Closer. Real.
+
+And this time…
+I don’t want to lose you again.
+
+I love you. ❤️`;
+
+let i=0;
+function type(){
+    if(i<msg.length){
+        document.getElementById("text").innerHTML += msg.charAt(i);
+        i++;
+        setTimeout(type,40);
+    } else {
+        setTimeout(()=>$("#question").fadeIn(),1500);
+    }
+}
+type();
+
+/* NO BUTTON RUN */
+$("#no").on("mouseenter", function(){
+    let x=Math.random()*window.innerWidth;
+    let y=Math.random()*window.innerHeight;
+    $(this).css({position:"fixed",left:x,top:y});
+});
+
+/* YES FLOW */
+$("#yes").click(function(){
+    $("#question").fadeOut();
+    $("#success").fadeIn();
+
+    setTimeout(()=>{
+        $("#success").fadeOut();
+        $("#proposal").fadeIn();
+    },2000);
+});
+
+/* GIFT */
+$("#gift").click(()=>{
+    window.location.href="secret.html";
+});
+
+/* HEARTS */
+setInterval(()=>{
+    let h=$("<div class='heart'>💖</div>");
+    h.css({left:Math.random()*100+"vw"});
+    $("body").append(h);
+    setTimeout(()=>h.remove(),6000);
+},500);
+
+</script>
+
+</body>
+</html>
